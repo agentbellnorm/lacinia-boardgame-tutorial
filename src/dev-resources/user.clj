@@ -2,6 +2,9 @@
   (:require
     [board-game-tutorial.schema :as s]
     [com.walmartlabs.lacinia :as lacinia]
+    [com.walmartlabs.lacinia.pedestal :as lp]
+    [io.pedestal.http :as http]
+    [clojure.java.browse :refer [browse-url]]
     [clojure.walk :as walk])
   (:import (clojure.lang IPersistentMap)))
 
@@ -29,6 +32,34 @@
   (-> (lacinia/execute schema query-string nil nil)
       simplify))
 
-(q "{ game_by_id(id: \"1236\") { id name summary }}")
+(defonce server nil)
 
-(q "{ game_by_id(id: \"anything\") { id name summary }}")
+(defn start-server
+  [_]
+  (let [server (-> schema
+                   (lp/service-map {:graphiql true})
+                   http/create-server
+                   http/start)]
+    (browse-url "http://localhost:8888")
+    server))
+
+(defn stop-server
+  [server]
+  (http/stop server)
+  nil)
+
+(defn start
+  []
+  (alter-var-root #'server start-server)
+  :started)
+
+(start)
+
+(defn stop
+  []
+  (alter-var-root #'server stop-server)
+  :stopped)
+
+(q"{ game_by_id(id: \"1235\") { id name summary designers { name } }}")
+
+(q "{ game_by_id(id: \"1235\") { name designers {name games {name}} }}")
