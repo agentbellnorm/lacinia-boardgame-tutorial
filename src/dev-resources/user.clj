@@ -49,6 +49,8 @@
 
 (q "{ game_by_id(id: \"1237\") { name rating_summary { count average }}}")
 
-(q "{ member_by_id(id: \"1410\") { member_name ratings { game { name } rating }}}")
+(q "{ member_by_id(id: \"1410\") { member_name ratings { game { id name } rating }}}")
 
 (q "{ member_by_id(id: \"1410\") { member_name ratings { game { name rating_summary { count average } designers { name  games { name }}} rating }}}")
+
+(q "mutation { rate_game(member_id: \"1410\", game_id: \"1236\", rating: 6) { rating_summary { count average }}}")
