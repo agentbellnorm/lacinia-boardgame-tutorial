@@ -6,7 +6,7 @@
             [com.walmartlabs.lacinia.resolve :refer [resolve-as]]
             [com.stuartsierra.component :as component]
             [clojure.edn :as edn]
-            [board-game-tutorial.db :as db]))
+            [board-game-tutorial.protocol.data-provider :as db]))
 
 (defn game-by-id
   [db]

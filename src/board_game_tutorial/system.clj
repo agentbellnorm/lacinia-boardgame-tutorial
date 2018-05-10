@@ -2,7 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [board-game-tutorial.schema :as schema]
             [board-game-tutorial.server :as server]
-            [board-game-tutorial.db :as db]))
+            [file-db.db :as db]))
 
 (defn new-system
   []
